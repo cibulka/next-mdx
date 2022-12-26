@@ -10,7 +10,7 @@ async function PageIndex(props: { params: { locale: string } }) {
   const filepathDefault = path.join(process.cwd(), `db/cs/pages/home.mdx`);
   const mdx = await readMdx(filepathMain, filepathDefault, locale);
 
-  return <PageContainer mdx={{ ...mdx, href: '/' }} locale={locale} />;
+  return <PageContainer mdx={{ ...mdx, href: '/' }} />;
 }
 
 export default PageIndex;

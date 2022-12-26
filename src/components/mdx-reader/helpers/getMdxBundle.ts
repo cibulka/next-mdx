@@ -9,6 +9,7 @@ export default async function getMdxBundle(
   content: string,
   locale: string,
 ): Promise<BundleItemParsed[]> {
+  // @ts-expect-error
   const bundleItems = [...content.matchAll(/<[A-Z]/g)].map((match) =>
     JSXParser(content.slice(match.index)),
   );
