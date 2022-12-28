@@ -4,10 +4,10 @@ const locales = ['en', 'cs', 'ru'];
 
 const i18nConfig: NextIntlConfig = {
   locales,
-  defaultLocale: 'en',
+  defaultLocale: locales[0],
   async getMessages(p) {
-    const locale = p?.locale || locales[0];
-    return (await import(`./messages/${locale}.json`)).default;
+    // if (!p) throw new Error('No params provided!');
+    return (await import(`./messages/${p?.locale || locales[0]}.json`)).default;
   },
 };
 

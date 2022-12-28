@@ -1,0 +1,46 @@
+/* coat-page */
+.coat-page-1,
+.coat-paper {
+  @apply bg-gray-50;
+  @apply dark:bg-gray-900;
+}
+.coat-page-1 *[class^='border-'],
+.coat-paper *[class^='border-'] {
+  @apply border-gray-100;
+}
+
+.coat-page,
+.coat-page-2 {
+  @apply bg-gray-200 text-gray-800;
+  @apply dark:bg-gray-800 dark:text-gray-200;
+}
+.coat-page *[class^='border-'],
+.coat-page-2 *[class^='border-'] {
+  @apply border-stone-300 dark:border-gray-700;
+}
+
+.coat-page-3 {
+  @apply bg-gray-300;
+  @apply dark:bg-gray-700;
+}
+.coat-page-3 *[class^='border-'] {
+  @apply border-gray-500;
+}
+
+/* menu */
+.coat-menu-1 {
+  @apply bg-slate-900 text-gray-200;
+}
+
+.coat-menu,
+.coat-menu-2 {
+  @apply bg-slate-800 text-gray-200;
+}
+.coat-menu *[class^='border-'],
+.coat-menu-2 *[class^='border-'] {
+  @apply border-slate-600;
+}
+
+.coat-menu-3 {
+  @apply bg-slate-700 text-gray-200;
+}

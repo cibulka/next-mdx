@@ -1,70 +1,32 @@
 import path from 'path';
-import fs, { promises as fsAsync } from 'fs';
-import matter from 'gray-matter';
+import fs from 'fs';
 
-import { MatterData, Mdx, MdxFull } from 'src/types/mdx';
+import { Mdx, MdxParsed } from 'src/types/mdx';
+import { filedataToMdxFull } from './helpers/filedata';
+import { parseMdx, parseMdxFull } from './helpers/parse';
+import { readFilepaths, readMdx } from './helpers/read';
 
-function mergeData(dataMain: MatterData, dataDefault: MatterData) {
-  const dataMerged = dataMain;
-  Object.keys(dataDefault).forEach((key) => {
-    if (!dataMerged[key]) dataMerged[key] = dataDefault[key];
-  });
-  return dataMerged;
+export async function readMdxFile(filepathMain: string, filepathDefault: string, locale: string) {
+  const [filedataMain, filedataDefault] = await readFilepaths(filepathMain, filepathDefault);
+  const mdxFull = filedataToMdxFull(filedataMain, filedataDefault);
+  const mdxFullParsed = await parseMdxFull(mdxFull, locale);
+
+  return mdxFullParsed;
 }
 
-function filedataToMdxFull(filedataMain: string, filedataDefault: string, slug: string) {
-  const { content } = matter(filedataMain, { excerpt: true });
-  const mdx = filedataToMdx(filedataMain, filedataDefault, slug);
-  const result: Omit<MdxFull, 'href'> = {
-    ...mdx,
-    content,
-  };
-  return result;
-}
-
-function filedataToMdx(filedataMain: string, filedataDefault: string, slug: string) {
-  const { data: dataMain, excerpt } = matter(filedataMain, { excerpt: true });
-  const { data: dataDefault } = matter(filedataDefault);
-
-  const data = mergeData(dataMain, dataDefault);
-
-  const result: Omit<Mdx, 'href'> = {
-    excerpt: excerpt || null,
-    photo: typeof data.photo === 'string' ? data.photo : null,
-    slug,
-    title: typeof data.title === 'string' ? data.title : null,
-  };
-
-  return result;
-}
-
-export async function readMdx(filepathMain: string, filepathDefault: string, locale: string) {
-  let filedataPromised: Promise<string>[] = [fsAsync.readFile(filepathMain, 'utf-8')];
-  if (filepathMain !== filepathDefault) {
-    filedataPromised = [...filedataPromised, fsAsync.readFile(filepathDefault, 'utf-8')];
-  }
-
-  const filedata = await Promise.all(filedataPromised);
-  const filedataMain = filedata[0];
-  const filedataDefault = filedata[1] || filedataMain;
-
-  const slug = path.basename(filepathMain);
-  const result = filedataToMdxFull(filedataMain, filedataDefault, slug);
-
-  return result;
-}
-
-export async function readMdxDir(dirpathMain: string, dirpathDefault: string, locale: string) {
+export async function readMdxDir(dirpathMain: string, dirpathDefault: string) {
   const filesMain = fs.readdirSync(dirpathMain);
 
-  let result: Omit<Mdx, 'href'>[] = [];
-
+  let promisesForReading: Promise<Mdx>[] = [];
   for (let i = 0; i < filesMain.length; i += 1) {
     const filepathMain = path.join(dirpathMain, filesMain[i]);
     if (path.extname(filepathMain) !== '.mdx') continue;
     const filepathDefault = path.join(dirpathDefault, filesMain[i]);
-    result = [...result, await readMdx(filepathMain, filepathDefault, locale)];
+    promisesForReading = [...promisesForReading, readMdx(filepathMain, filepathDefault)];
   }
+  const mdx: Mdx[] = await Promise.all(promisesForReading);
 
-  return result;
+  const promisesForParsing = mdx.map(parseMdx);
+  const mdxParsed: MdxParsed[] = await Promise.all(promisesForParsing);
+  return mdxParsed;
 }

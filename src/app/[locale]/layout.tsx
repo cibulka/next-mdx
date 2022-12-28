@@ -1,20 +1,25 @@
 import { ReactNode } from 'react';
-import { useTranslations } from 'next-intl';
+import { notFound } from 'next/navigation';
+import { IconContext } from 'react-icons';
 import { NextIntlServerProvider } from 'next-intl/server';
 
-import Footer from 'src/components/layout/footer/Footer';
-import Nav from 'src/components/layout/nav/Nav';
-
-import i18n from '../../../i18n';
-
-import 'src/styles/globals.css';
+import appConfig from '../../../app.config';
+import AppLayout from 'src/components/app-layout/AppLayout';
 
 export function generateStaticParams() {
-  return i18n.locales.map((locale) => ({ locale }));
+  return appConfig.locales.map((locale) => ({ locale }));
 }
 
-export default function Layout(props: { children: ReactNode; params: { locale: string } }) {
-  const translate = useTranslations('app');
+export default async function Layout(props: { children: ReactNode; params: { locale: string } }) {
+  const { locale } = props.params;
+
+  let messages;
+  try {
+    messages = (await import(`../../../messages/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+
   return (
     <html lang={props.params.locale}>
       <head>
@@ -28,12 +33,8 @@ export default function Layout(props: { children: ReactNode; params: { locale: s
         <meta name="theme-color" content="#ffffff" />
       </head>
       <body>
-        <NextIntlServerProvider locale={props.params.locale}>
-          <div id="app" className="flex flex-col">
-            <Nav title={translate('title')} />
-            <div className="flex-1 p-4">{props.children}</div>
-            <Footer />
-          </div>
+        <NextIntlServerProvider locale={locale} messages={messages}>
+          <AppLayout>{props.children}</AppLayout>
         </NextIntlServerProvider>
       </body>
     </html>

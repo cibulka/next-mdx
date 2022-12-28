@@ -1,16 +1,17 @@
 import path from 'path';
 
-import PageContainer from 'src/containers/page/Page';
-import { readMdx } from 'src/server/readMdx';
+import { getLocaleDefault } from 'src/helpers/getLocales';
+import MdxPage from 'src/mdx/MdxPage';
+import { readMdxFile } from 'src/server/readMdx';
 
 async function PageIndex(props: { params: { locale: string } }) {
   const { locale } = props.params;
 
   const filepathMain = path.join(process.cwd(), `db/${locale}/pages/home.mdx`);
-  const filepathDefault = path.join(process.cwd(), `db/cs/pages/home.mdx`);
-  const mdx = await readMdx(filepathMain, filepathDefault, locale);
+  const filepathDefault = path.join(process.cwd(), `db/${getLocaleDefault()}/pages/home.mdx`);
+  const mdx = await readMdxFile(filepathMain, filepathDefault, locale);
 
-  return <PageContainer mdx={{ ...mdx, href: '/' }} />;
+  return <MdxPage mdx={mdx} />;
 }
 
 export default PageIndex;

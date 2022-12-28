@@ -1,0 +1,4 @@
+.app-max-w-content {
+  @apply max-w-4xl w-full ml-auto mr-auto;
+  @apply px-4;
+}

@@ -3,6 +3,8 @@
         "title": "Birds of paradise"
     },
     "components": {
-        
+        "Test": {
+            "message": "This is test"
+        }
     }
 }

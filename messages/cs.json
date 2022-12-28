@@ -3,11 +3,8 @@
         "title": "Rajkovití"
     },
     "components": {
-        "LocaleLink": {
-            "select": "Jazyk",
-            "cs": "Česky",
-            "en": "English",
-            "ru": "Русский"
+        "Test": {
+            "message": "Já jsem test"
         }
     }
 }

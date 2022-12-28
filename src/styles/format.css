@@ -1,0 +1,31 @@
+.app-format p,
+.app-format hr {
+  @apply mb-4;
+}
+
+.app-format h2 {
+  @apply text-2xl font-bold;
+}
+
+.app-format .footnotes h2 {
+  display: none;
+}
+
+.app-format .footnotes ol {
+  @apply border-t-2 pt-4;
+  counter-reset: footnotes;
+  @apply text-sm;
+}
+
+.app-format .footnotes > ol > li {
+  display: flex;
+  align-items: flex-start;
+  gap: 1em;
+}
+
+.app-format .footnotes > ol > li:before {
+  content: counter(footnotes);
+  counter-increment: footnotes;
+  @apply text-lg font-bold;
+  transform: translateY(-0.25em);
+}

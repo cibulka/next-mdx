@@ -18,17 +18,12 @@ body {
   min-height: 100vh;
 }
 
-.red,
-.undefined,
-.null,
-.false {
-  background: red !important;
+svg {
+  @apply block w-full h-full;
+  @apply fill-current;
 }
 
-.blue {
-  background: blue !important;
-}
-
-.green {
-  background: green !important;
+.prose .float-left,
+.prose .float-right {
+  @apply mt-0;
 }

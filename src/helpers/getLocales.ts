@@ -1,9 +1,9 @@
-import i18nConfig from '../../i18n';
+import appConfig from '../../app.config';
 
 export function getLocaleDefault() {
-  return i18nConfig.locales[0];
+  return appConfig.locales[0];
 }
 
 export default function getLocales() {
-  return i18nConfig.locales;
+  return appConfig.locales;
 }

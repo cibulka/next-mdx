@@ -3,11 +3,8 @@
         "title": "Райские птицы"
     },
     "components": {
-        "LocaleLink": {
-            "select": "Язык",
-            "cs": "Česky",
-            "en": "English",
-            "ru": "Русский"
+        "Test": {
+            "message": "Я тест"
         }
     }
 }

@@ -1,12 +1,12 @@
-import { Mdx } from 'src/types/mdx';
+import { MdxArticleParsed } from 'src/types/mdx';
 
 import ArticlesView from './components/ArticlesView';
 
 export type ArticlesData = {
-  articles: Mdx[];
+  articles: MdxArticleParsed[];
 };
 
-function Articles(props: { count: number } & ArticlesData) {
+function Articles(props: { category?: string; count: number } & ArticlesData) {
   return <ArticlesView articles={props.articles} />;
 }
 
