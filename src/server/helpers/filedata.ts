@@ -6,7 +6,11 @@ import removeExcerptFromContent from './removeExcerptFromContent';
 
 import { FileDataMdx, Mdx, MdxFull } from 'src/types/mdx';
 
-export function filedataToMdx(filedataMain: FileDataMdx, filedataDefault: FileDataMdx) {
+export function filedataToMdx(
+  filedataMain: FileDataMdx,
+  filedataDefault: FileDataMdx,
+  isTranslated: boolean,
+) {
   const { data: dataMain, excerpt } = matter(filedataMain.data);
   const { data: dataDefault } = matter(filedataDefault.data);
 
@@ -18,14 +22,19 @@ export function filedataToMdx(filedataMain: FileDataMdx, filedataDefault: FileDa
     photo: typeof data.photo === 'string' ? data.photo : null,
     slug: path.basename(filedataMain.path, '.mdx'),
     title: typeof data.title === 'string' ? data.title : null,
+    isTranslated,
   };
 
   return result;
 }
 
-export function filedataToMdxFull(filedataMain: FileDataMdx, filedataDefault: FileDataMdx) {
+export function filedataToMdxFull(
+  filedataMain: FileDataMdx,
+  filedataDefault: FileDataMdx,
+  isTranslated: boolean,
+) {
   const { content, excerpt } = matter(filedataMain.data);
-  const mdx = filedataToMdx(filedataMain, filedataDefault);
+  const mdx = filedataToMdx(filedataMain, filedataDefault, isTranslated);
   const result: MdxFull = {
     ...mdx,
     content: removeExcerptFromContent(content, excerpt || null),

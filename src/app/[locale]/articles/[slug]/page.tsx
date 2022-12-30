@@ -20,7 +20,7 @@ async function BirdPage(props: { params: { locale: string; slug: string } }) {
   const filepathDefault = path.join(process.cwd(), `db/${getLocaleDefault()}/${DIR}/${slug}.mdx`);
   const mdx = await readMdxFile(filepathMain, filepathDefault, locale);
 
-  return <MdxPage mdx={mdx} />;
+  return <MdxPage mdx={mdx} type="article" />;
 }
 
 export default BirdPage;

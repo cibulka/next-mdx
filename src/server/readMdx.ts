@@ -7,8 +7,9 @@ import { parseMdx, parseMdxFull } from './helpers/parse';
 import { readFilepaths, readMdx } from './helpers/read';
 
 export async function readMdxFile(filepathMain: string, filepathDefault: string, locale: string) {
-  const [filedataMain, filedataDefault] = await readFilepaths(filepathMain, filepathDefault);
-  const mdxFull = filedataToMdxFull(filedataMain, filedataDefault);
+  const { filedata, isTranslated } = await readFilepaths(filepathMain, filepathDefault);
+  const [filedataMain, filedataDefault] = filedata;
+  const mdxFull = filedataToMdxFull(filedataMain, filedataDefault, isTranslated);
   const mdxFullParsed = await parseMdxFull(mdxFull, locale);
 
   return mdxFullParsed;

@@ -4,7 +4,6 @@ import Articles, { ArticlesData } from 'src/blocks/articles/Articles';
 import Image, { ImageData } from 'src/blocks/image/Image';
 
 import LinkLocalizedServer from 'src/components/link-localized/LinkLocalizedServer';
-import MaxWidthEscape from 'src/components/max-width-escape/MaxWidthEscape';
 import { parseElementsFromHtml } from 'src/server/helpers/attrs';
 import { ElementParsedWithData } from 'src/types/mdx';
 
@@ -50,9 +49,7 @@ function transform(node: HTMLElement, children: Node[], bundle: ElementParsedWit
     const attrCount = node.getAttribute('count');
     return (
       <>
-        <MaxWidthEscape className="px-4" maxWidth="100em">
-          <Articles count={attrCount ? parseInt(attrCount) : 3} articles={data.articles} />
-        </MaxWidthEscape>
+        <Articles count={attrCount ? parseInt(attrCount) : 3} articles={data.articles} />
         {children}
       </>
     );

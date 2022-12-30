@@ -8,7 +8,8 @@ function LinkLocalizedView(props: LinkProps & { localeCurrent: string }, ref: Li
   const localeUsed = locale || localeCurrent;
 
   function getLocalizedHref(originalHref: string) {
-    return originalHref.replace(/^\//, '/' + localeUsed + '/');
+    let originalHrefWithSlash = originalHref.startsWith('/') ? originalHref : `/${originalHref}`;
+    return originalHrefWithSlash.replace(/^\//, '/' + localeUsed + '/');
   }
 
   const localizedHref =

@@ -17,6 +17,7 @@ export type ImageRequiredProps = {
 
 export type ImageOptionalProps = {
   align?: 'left' | 'center' | 'right';
+  className?: string;
   as?: React.ElementType;
   title?: string | null;
 };
@@ -34,8 +35,9 @@ const Image = React.forwardRef<React.ElementType, ImageProps>((props, ref) => {
     <IconContext.Provider value={{ size: '100%' }}>
       <Wrap
         className={[
-          'relative mb-4',
+          'relative',
           'not-prose',
+          props.className,
           styles.image,
           (props.align === 'left' || props.align === 'right') && 'transform w-1/3',
           props.align === 'left' && 'float-left mr-5',

@@ -1,4 +1,5 @@
 const plugin = require('tailwindcss/plugin')
+const colors = require('tailwindcss/colors')
 
 /* Result */
 const result = {
@@ -17,10 +18,19 @@ const result = {
         '.max-w-screen-2\\/3': {
           'max-width': '33vw',
         },
+        '.aspect-ratio-1x1': {
+          'padding-bottom': '100%',
+        }
       });
-
     })
   ],
+  theme: {
+    extend: {
+      colors: {
+        primary: colors.blue[600],
+      }
+    }
+  },
 };
 
 module.exports = result;

@@ -11,6 +11,7 @@ export interface Mdx {
   photo: string | null;
   slug: string;
   title: string | null;
+  isTranslated: boolean;
 }
 
 export interface MdxParsed extends Mdx {
